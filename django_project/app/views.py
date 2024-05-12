@@ -5,16 +5,10 @@ import os
 from pathlib import Path
 
 def index(request):
-	context = {"name": "Sambhav Jain"}
-	return render(request, 'index.html', context)
+	return render(request, 'index.html')
 
 def about(request):
-	context = {"name": "Sambhav Jain"}
-	return render(request, 'about.html', context)
-
-def contact(request):
-	context = {"name": "Sambhav Jain"}
-	return render(request, 'contact.html', context)
+	return render(request, 'about.html')
 
 def predict(request):
 	body = request.body
