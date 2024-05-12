@@ -1,0 +1,138 @@
+<style>
+	input,
+	select {
+		width: 30%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	label {
+		margin-top: 10px;
+	}
+
+	button {
+		width: 30%;
+		background-color: #4caf50;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 20px;
+		border: none;
+		border-radius: 15px;
+		cursor: pointer;
+	}
+
+	button:hover {
+		background-color: #45a049;
+	}
+
+	div {
+		border-radius: 5px;
+		background-color: #f2f2f2;
+		padding: 20px;
+	}
+</style>
+{% extends "base.html" %} 
+{% block title %}Home{% endblock title %}
+
+{% comment %} 
+	Gender
+	HeadCircumference
+	ShoulderWidth
+	ChestWidth
+	Belly
+	Waist
+	Hips
+	ArmLength
+	ShoulderToWaist
+	WaistToKnee
+	LegLength
+	TotalHeight
+	Size
+{% endcomment %}
+
+{% block body %}
+<form class="row g-3" id="size-form">
+  <div class="col-md-4 p-4">
+		<label for="gender" class="form-label">Gender</label>
+		<select id="gender" class="form-select">
+			<option value=2>Female</option>
+			<option value=1>Male</option>
+		</select>
+
+    <label for="HeadCircumference" class="form-label">Head Circumference (in inches)</label>
+    <input type="number" class="form-control" id="headCircumference">
+
+		<label for="ShoulderWidth" class="form-label">Shoulder Width (in inches)</label>
+    <input type="number" class="form-control" id="shoulderWidth">
+
+		<label for="ChestWidth" class="form-label">Chest Width (in inches)</label>
+    <input type="number" class="form-control" id="chestWidth">
+  </div>
+
+  <div class="col-md-4  p-4">
+		<label for="Belly" class="form-label">Belly (in inches)</label>
+    <input type="number" class="form-control" id="belly">
+
+		<label for="Waist" class="form-label">Waist (in inches)</label>
+    <input type="number" class="form-control" id="waist">
+
+		<label for="Hips" class="form-label">Hips (in inches)</label>
+    <input type="number" class="form-control" id="hips">
+
+		<label for="ArmLength" class="form-label">Arm Length (in inches)</label>
+    <input type="number" class="form-control" id="armLength">
+  </div>
+
+	<div class="col-md-4  p-4">
+		<label for="ShoulderToWaist" class="form-label">Shoulder To Waist (in inches)</label>
+    <input type="number" class="form-control" id="shoulderToWaist">
+
+		<label for="WaistToKnee" class="form-label">Waist To Knee (in inches)</label>
+    <input type="number" class="form-control" id="waistToKnee">
+
+		<label for="LegLength" class="form-label">Leg Length (in inches)</label>
+    <input type="number" class="form-control" id="legLength">
+
+		<label for="TotalHeight" class="form-label">Total Height (in inches)</label>
+    <input type="number" class="form-control" id="totalHeight">
+  </div>
+	<div class="row-md-6 p-5">
+    <input class="d-md-inline" type="text" class="form-control" id="size" placeholder="Size">
+		
+		<button type="submit">Predict Size</button>
+	</div>
+</form>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).on("submit", "#size-form", function(e) {
+		e.preventDefault();
+		var data = {
+			gender: $("#gender").val(),
+			headCircumference: $("#headCircumference").val(),
+			shoulderWidth: $("#shoulderWidth").val(),
+			chestWidth: $("#chestWidth").val(),
+			belly: $("#belly").val(),
+			waist: $("#waist").val(),
+			hips: $("#hips").val(),
+			armLength: $("#armLength").val(),
+			shoulderToWaist: $("#shoulderToWaist").val(),
+			waistToKnee: $("#waistToKnee").val(),
+			legLength: $("#legLength").val(),
+			totalHeight: $("#totalHeight").val()
+		};
+		console.log(JSON.stringify(data))
+		$.ajax({
+			type: 'POST',
+			url: 'predict',
+      data: JSON.stringify(data),
+			success: function(data) {
+				$("#size").val(data)
+			}
+		})
+	})
+</script>
+{% endblock body %}
